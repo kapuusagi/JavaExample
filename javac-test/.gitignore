@@ -1,0 +1,4 @@
+# vi swap file.
+.*.swp
+/build
+/classes
