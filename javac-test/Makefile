@@ -30,6 +30,9 @@ all: $(JAR_FILE)
 	@echo "If you want to run, type 'java -jar $(JAR_FILE)'"
 
 $(JAR_FILE): $(CLASSES) $(BUILD_DIR)
+	@if [ -e $@ ] ; then \
+	    rm $@; \
+	fi
 	$(JAR) cvfe $(JAR_FILE) $(ENTRY_CLASS) -C $(CLASSES_DIR) $(shell ls -1 classes)
 	cat $(BUILD_DIR)/test.jar | $(JAR) -t
 
@@ -41,7 +44,7 @@ $(BUILD_DIR) :
 
 
 $(CLASSES_DIR)/%.class: $(SRC_DIR)/%.java  $(CLASSES_DIR)
-	$(JAVAC) -d $(CLASSES_DIR) $<
+	$(JAVAC) -cp $(CLASSES_DIR) -d $(CLASSES_DIR) $<
 
 $(CLASSES_DIR) :
 	@if [ ! -d $@ ] ; then \
